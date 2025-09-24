@@ -1,0 +1,7 @@
+/home/aziz/Desktop/Pokemon/PokemonReviewApp/obj/Debug/net9.0/PokemonReviewApp.csproj.AssemblyReference.cache
+/home/aziz/Desktop/Pokemon/PokemonReviewApp/obj/Debug/net9.0/PokemonReviewApp.GeneratedMSBuildEditorConfig.editorconfig
+/home/aziz/Desktop/Pokemon/PokemonReviewApp/obj/Debug/net9.0/PokemonReviewApp.AssemblyInfoInputs.cache
+/home/aziz/Desktop/Pokemon/PokemonReviewApp/obj/Debug/net9.0/PokemonReviewApp.AssemblyInfo.cs
+/home/aziz/Desktop/Pokemon/PokemonReviewApp/obj/Debug/net9.0/PokemonReviewApp.csproj.CoreCompileInputs.cache
+/home/aziz/Desktop/Pokemon/PokemonReviewApp/obj/Debug/net9.0/PokemonReviewApp.MvcApplicationPartsAssemblyInfo.cs
+/home/aziz/Desktop/Pokemon/PokemonReviewApp/obj/Debug/net9.0/PokemonReviewApp.MvcApplicationPartsAssemblyInfo.cache
