@@ -168,3 +168,7 @@ secrets.json
 # Local development files
 .local/
 .cache/
+
+
+obj/
+bin/
