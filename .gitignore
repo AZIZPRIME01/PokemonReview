@@ -169,9 +169,9 @@ secrets.json
 .local/
 .cache/
 
+obj/
+# .obj/
+# .bin/
 
-.obj/
-.bin/
-
-*.obj
-*.bin
+# *.obj
+# *.bin
