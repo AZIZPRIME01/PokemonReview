@@ -1,3 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using PokemonReviewApp.Data;
+using PokemonReviewApp.Models;
+
 namespace PokemonReviewApp.Repository
 {
     public class PokemonRepository
@@ -11,6 +15,6 @@ namespace PokemonReviewApp.Repository
         public ICollection<Pokemon> GetPokemons()
         {
             return _context.Pokemon.OrderBy(p => p.Id).ToList();
-    }
+        }
     }
 }
