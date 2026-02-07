@@ -175,3 +175,5 @@ obj/
 
 # *.obj
 # *.bin
+
+.fake
