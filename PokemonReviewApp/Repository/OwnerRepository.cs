@@ -1,0 +1,56 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
+using PokemonReviewApp.Data;
+using PokemonReviewApp.Interfaces;
+using PokemonReviewApp.Models;
+
+namespace PokemonReviewApp.Repository
+{
+    public class OwnerRepository : IOwnerRepository
+    {
+        private readonly DataContext _context;
+        private readonly IMapper _mapper;
+        public OwnerRepository(DataContext context, IMapper mapper)
+        {
+            _mapper = mapper;
+            _context = context;
+
+        }
+        public Owner GetOwner(int ownerId)
+        {
+            return _context.Owners.Where(o => o.Id == ownerId).FirstOrDefault();
+        }
+
+        public ICollection<Owner> GetOwnerOfPokemon(int pokeId)
+        {
+            return _context.PokemonOwners.
+                 Where(p => p.Pokemon.Id == pokeId).
+                 Select(o => o.Owner).ToList();
+        }
+
+        public ICollection<Owner> GetOwnerOfPokemon(Owner owner)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICollection<Owner> GetOwners()
+        {
+            return _context.Owners.ToList();
+        }
+
+        public ICollection<Pokemon> GetPokemonByOwner(int ownerId)
+        {
+            return _context.PokemonOwners.
+                 Where(p => p.Owner.Id == ownerId).
+                 Select(p => p.Pokemon).ToList();
+        }
+
+        public bool IsOwnerExist(int ownerId)
+        {
+            return _context.Owners.Any(o => o.Id == ownerId);
+        }
+    }
+}
