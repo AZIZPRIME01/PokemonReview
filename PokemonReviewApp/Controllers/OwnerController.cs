@@ -3,30 +3,24 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using PokemonReviewApp.Interfaces;
 
 namespace PokemonReviewApp.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
+    [ApiController]
     public class OwnerController : Controller
     {
-        private readonly ILogger<OwnerController> _logger;
-
-        public OwnerController(ILogger<OwnerController> logger)
+        private readonly IOwnerRepository _ownerRepository;
+        private readonly IMapper _mapper;
+        public OwnerController(IOwnerRepository ownerRepository, IMapper mapper)
         {
-            _logger = logger;
-        }
-
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View("Error!");
+            _mapper = mapper;
+            _ownerRepository = ownerRepository;
+            
         }
     }
 }
