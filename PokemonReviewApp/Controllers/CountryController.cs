@@ -22,7 +22,7 @@ namespace PokemonReviewApp.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<Country>))]
         public IActionResult GetCountries()
         {
-            var countries = _mapper.Map<List<CountryDto>>(_countryrepository.GetCountries);
+            var countries = _mapper.Map<List<CountryDto>>(_countryrepository.GetCountries());
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -57,6 +57,36 @@ namespace PokemonReviewApp.Controllers
                 return BadRequest(ModelState);
 
             return Ok(country);
+        }
+
+        [HttpPost("create")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CreateCountry([FromBody] CountryDto countryCreate)
+        {
+            if (countryCreate == null)
+                return BadRequest(ModelState);
+
+            var country = _countryrepository.GetCountries()
+                .Where(c => c.Name.Trim().ToUpper() == countryCreate.Name.TrimEnd().ToUpper())
+                .FirstOrDefault();
+
+            if (country != null)
+            {
+                ModelState.AddModelError("", "Country already exist:");
+                return StatusCode(422, ModelState);
+            }
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var countryMap = _mapper.Map<Country>(countryCreate);
+
+            if (!_countryrepository.CreateCountry(countryMap))
+            {
+                ModelState.AddModelError("", "Something went wrong:");
+                return StatusCode(500, ModelState);
+            }
+            return Ok();
         }
     }
 }
