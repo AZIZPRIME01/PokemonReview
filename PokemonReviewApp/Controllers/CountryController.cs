@@ -116,5 +116,29 @@ namespace PokemonReviewApp.Controllers
             }
             return NoContent();
         }
+
+        [HttpDelete("countryId")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult DeleteCountry(int countryId)
+        {
+            if (!_countryrepository.CountryExists(countryId))
+            {
+                return NotFound();
+            }
+
+            var countryToDelete = _countryrepository.GetCountry(countryId);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_countryrepository.DeleteCountry(countryToDelete))
+            {
+                ModelState.AddModelError("", "Something went wrong");
+            }
+
+            return NoContent();
+        }
     }
 }
