@@ -60,7 +60,7 @@ namespace PokemonReviewApp.Controllers
             return Ok(owner);
         }
 
-        [HttpPost("create")]
+        [HttpPost("createOwner")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         public IActionResult CreateOwner([FromQuery] int countryId, [FromBody] OwnerDto ownerCreate)
@@ -91,6 +91,34 @@ namespace PokemonReviewApp.Controllers
                 return StatusCode(500, ModelState);
             }
             return Ok();
+        }
+
+        [HttpPut("{ownerId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateOwner(int ownerId, [FromBody] OwnerDto updateOwner)
+        {
+            if (updateOwner == null)
+                return BadRequest(ModelState);
+
+            if (ownerId != updateOwner.Id)
+                return BadRequest(ModelState);
+
+            if (!_ownerRepository.IsOwnerExist(ownerId))
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var ownerMap = _mapper.Map<Owner>(updateOwner);
+
+            if (!_ownerRepository.UpdateOwner(ownerMap))
+            {
+                ModelState.AddModelError("", "Something went wrong");
+                return StatusCode(500, ModelState);
+            }
+            return NoContent();
         }
     }
 }

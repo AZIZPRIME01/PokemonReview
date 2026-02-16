@@ -62,7 +62,7 @@ namespace PokemonReviewApp.Controllers
             return Ok(reviews);
         }
 
-        [HttpPost("create")]
+        [HttpPost("createReviewer")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         public IActionResult CreateReviewer([FromBody] ReviewerDto reviewerCreate)
@@ -90,6 +90,34 @@ namespace PokemonReviewApp.Controllers
                 return StatusCode(500, ModelState);
             }
             return Ok();
+        }
+
+        [HttpPut("{reviewerId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateReviewer(int reviewerId, [FromBody] ReviewerDto UpdateReviewer)
+        {
+            if (UpdateReviewer == null)
+                return BadRequest(ModelState);
+
+            if (reviewerId != UpdateReviewer.Id)
+                return BadRequest(ModelState);
+
+            if (!_reviewerRepository.IsReviewerExists(reviewerId))
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var reviewerMap = _mapper.Map<Reviewer>(UpdateReviewer);
+
+            if (!_reviewerRepository.UpdateReviewer(reviewerMap))
+            {
+                ModelState.AddModelError("", "Something went wrong");
+                return StatusCode(500, ModelState);
+            }
+            return NoContent();
         }
     }
 }
