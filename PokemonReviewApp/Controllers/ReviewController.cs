@@ -47,10 +47,10 @@ namespace PokemonReviewApp.Controllers
             return Ok(review);
         }
 
-        [HttpGet("pokemon/{pokemonId}")]
+        [HttpGet("pokemon/{pokeId}")]
         [ProducesResponseType(200, Type = typeof(Review))]
         [ProducesResponseType(400)]
-        public IActionResult GetReviewOfAPokemon(int pokeId)
+        public IActionResult GetReviewForAPokemon(int pokeId)
         {
             var review = _mapper.Map<List<ReviewDto>>(_reviwRepositry.GetReviewOfApokemon(pokeId));
 
@@ -60,7 +60,7 @@ namespace PokemonReviewApp.Controllers
             return Ok(review);
         }
 
-        [HttpPost("create")]
+        [HttpPost("createReview")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         public IActionResult CreateReview([FromQuery] int reviewerId, [FromQuery] int pokeId, [FromBody] ReviewDto reviewCreate)
@@ -92,6 +92,34 @@ namespace PokemonReviewApp.Controllers
                 return StatusCode(500, ModelState);
             }
             return Ok();
+        }
+
+        [HttpPut("{reviewId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateReview(int reviewId, [FromBody] ReviewDto UpdateReview)
+        {
+            if (UpdateReview == null)
+                return BadRequest(ModelState);
+
+            if (reviewId != UpdateReview.Id)
+                return BadRequest(ModelState);
+
+            if (!_reviwRepositry.IsReviewExists(reviewId))
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var reviewMap = _mapper.Map<Review>(UpdateReview);
+
+            if (!_reviwRepositry.UpdateReview(reviewMap))
+            {
+                ModelState.AddModelError("", "Something went wrong");
+                return StatusCode(500, ModelState);
+            }
+            return NoContent();
         }
     }
 }
