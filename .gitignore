@@ -170,6 +170,7 @@ secrets.json
 .cache/
 
 obj/
+bin/
 # .obj/
 # .bin/
 

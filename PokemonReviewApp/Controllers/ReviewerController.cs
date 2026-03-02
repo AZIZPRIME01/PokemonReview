@@ -120,7 +120,7 @@ namespace PokemonReviewApp.Controllers
             return NoContent();
         }
 
-        [HttpDelete("reviewerId")]
+        [HttpDelete("{reviewerId}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
